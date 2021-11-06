@@ -3,5 +3,5 @@
 version = 3
 
 [[package]]
-name = "ftp"
+name = "tftp-rs"
 version = "0.1.0"
