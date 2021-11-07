@@ -1,11 +1,11 @@
-use std::io::{Error, Write};
+use std::io::{Write};
 
-use crate::ftp::{Reply, ReplyMessage, Request};
+use crate::ftp::{Reply, ReplyMessage};
 
 pub struct Encoder {}
 
 impl Encoder {
-    pub fn encode(reply: Reply) -> Result<Vec<u8>, Error> {
+    pub fn encode(reply: Reply) -> Result<Vec<u8>, std::io::Error> {
         let mut vec = Vec::new();
 
         match reply.message {
@@ -17,16 +17,10 @@ impl Encoder {
     }
 }
 
-// struct Decoder {}
-
-// impl Decoder {
-//   pub fn decode() {}
-// }
-
 #[cfg(test)]
 mod tests {
     use crate::ftp::*;
-    use crate::Encoder;
+    use crate::{Encoder};
 
     #[test]
     fn encode() {
