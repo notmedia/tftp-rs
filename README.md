@@ -1,4 +1,5 @@
-# tftp-rs
+# TFTP-RS
+
 FTP trap-server implementation written in Rust 🦀
 
-[RFC959](https://www.w3.org/Protocols/rfc959/)
+[![RFC959](https://img.shields.io/badge/-RFC959-blue)](https://www.rfcreader.com/#rfc959)

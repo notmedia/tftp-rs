@@ -1,16 +1,28 @@
 use std::io::prelude::*;
 use std::net::{TcpListener, TcpStream};
 
-enum Command {
-  USER,
-  QUIT,
-  PORT,
-  TYPE,
-  MODE,
-  STRU,
-  RETR,
-  STOR,
-  NOOP
+mod codec;
+mod ftp;
+
+use ftp::*;
+use codec::*;
+
+fn handle_connection(mut stream: TcpStream) {
+  let reply = Reply::new(StatusCode::ServiceReadyForNewUser, "Welcome to custom FTP Server!");
+
+  match stream.write(&Encoder::encode(reply).unwrap()) {
+    Ok(_) => {},
+    Err(e) => println!("Connection error: {}", e)
+  }
+
+  // let mut packet: [u8; 32] = [0; 32];
+
+  // match stream.read(&mut packet) {
+  //   Ok(_) => println!("Packet: {:?}", String::from_utf8_lossy(&packet[..])),
+  //   Err(e) => println!("Error: {}", e)
+  // }
+  // stream.write(&bytes).unwrap();
+  // println!("Packet: {:?}", String::from_utf8_lossy(&packet[..]));
 }
 
 fn main() -> std::io::Result<()> {
@@ -23,12 +35,4 @@ fn main() -> std::io::Result<()> {
   }
 
   Ok(())
-}
-
-fn handle_connection(mut stream: TcpStream) {
-  let mut packet: [u8; 100] = [0; 100];
-
-  stream.read(&mut packet).unwrap();
-
-  println!("Packet: {:?}", String::from_utf8_lossy(&packet[..]));
 }
