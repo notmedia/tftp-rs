@@ -1,21 +1,20 @@
-use std::io::{Write, Error};
+use std::io::{Error, Write};
 
-use crate::ftp::{Reply, Request};
+use crate::ftp::{Reply, ReplyMessage, Request};
 
 pub struct Encoder {}
 
 impl Encoder {
-  pub fn encode(reply: Reply) -> Result<Vec<u8>, Error> {
-    let mut vec = Vec::new();
+    pub fn encode(reply: Reply) -> Result<Vec<u8>, Error> {
+        let mut vec = Vec::new();
 
-    if reply.message.is_empty() {
-      write!(vec, "{}\r\n", reply.code as u32)?;
-    } else {
-      write!(vec, "{} {}\r\n", reply.code as u32, reply.message)?;
+        match reply.message {
+            ReplyMessage::Is(message) => write!(vec, "{} {}\r\n", reply.code as u32, message)?,
+            _ => write!(vec, "{}\r\n", reply.code as u32)?,
+        }
+
+        Ok(vec)
     }
-
-    Ok(vec)
-  }
 }
 
 // struct Decoder {}
@@ -23,3 +22,18 @@ impl Encoder {
 // impl Decoder {
 //   pub fn decode() {}
 // }
+
+#[cfg(test)]
+mod tests {
+    use crate::ftp::*;
+    use crate::Encoder;
+
+    #[test]
+    fn encode() {
+        let result = Encoder::encode(Reply::new(
+            StatusCode::ServiceReadyForNewUser,
+            ReplyMessage::Is(String::from("Test")),
+        ));
+        assert!(result.is_ok());
+    }
+}

@@ -1,37 +1,45 @@
 pub enum Command {
-  USER,
-  QUIT,
-  PORT,
-  TYPE,
-  MODE,
-  STRU,
-  RETR,
-  STOR,
-  NOOP
+    USER,
+    QUIT,
+    PORT,
+    TYPE,
+    MODE,
+    STRU,
+    RETR,
+    STOR,
+    NOOP,
 }
 
 pub enum StatusCode {
-  ServiceReadyForNewUser = 220,
+    ServiceReadyForNewUser = 220,
+}
+
+pub enum ReplyMessage {
+    // None,
+    Is(String),
 }
 
 pub struct Reply {
-  pub code: StatusCode,
-  pub message: String,
+    pub code: StatusCode,
+    pub message: ReplyMessage,
 }
 
 impl Reply {
-  pub fn new(code: StatusCode, message: &str) -> Self {
-    Reply { code, message: message.to_string() }
-  }
+    pub fn new(code: StatusCode, message: ReplyMessage) -> Self {
+        Reply { code, message }
+    }
 }
 
 pub struct Request {
-  pub command: Command,
-  pub payload: String,
+    pub command: Command,
+    pub payload: String,
 }
 
 impl Request {
-  pub fn new(command: &str, payload: &str) -> Self {
-    Request { command: Command::NOOP, payload: payload.to_string() }
-  }
+    pub fn new(command: &str, payload: &str) -> Self {
+        Request {
+            command: Command::NOOP,
+            payload: payload.to_string(),
+        }
+    }
 }
