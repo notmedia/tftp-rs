@@ -15,7 +15,7 @@ pub enum StatusCode {
 }
 
 pub enum ReplyMessage {
-    // None,
+    None,
     Is(String),
 }
 
@@ -32,14 +32,12 @@ impl Reply {
 
 pub struct Request {
     pub command: Command,
-    pub payload: String,
 }
 
 impl Request {
-    pub fn new(command: &str, payload: &str) -> Self {
+    pub fn new(command: &str) -> Self {
         Request {
             command: Command::NOOP,
-            payload: payload.to_string(),
         }
     }
 }

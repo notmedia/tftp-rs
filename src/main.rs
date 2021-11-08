@@ -5,6 +5,7 @@ mod codec;
 mod ftp;
 
 use codec::*;
+use config::*;
 use ftp::*;
 
 fn handle_connection(mut stream: TcpStream) {

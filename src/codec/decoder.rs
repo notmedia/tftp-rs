@@ -8,7 +8,6 @@ impl Decoder {
   pub fn decode() -> Result<Request, Error> {
     Ok(Request {
       command: Command::NOOP,
-      payload: String::from("Test payload")
     })
   }
 }
